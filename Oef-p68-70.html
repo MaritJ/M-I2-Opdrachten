@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+       Remove this if you use the .htaccess -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="Marit Jaspers" />
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+  <title>Oef p68-70</title>
+    
+<script src="../jquery-1.12.1.js"></script>
+	<script>
+	"use strict";
+		$(document).ready(function () {
+			//elementen met hoofdstuk 1 in het grijs zetten ;
+			// dit is het element dat voorafgaat aan het eerste li element ...
+			$("body>div>div>ul>li.actief").prev().css("color", "#aaa");
+			
+			//alle elementen vor het element 'ul>li.actief rood maken
+			//enkel voor de paragrafen, niet naar het niveau daarboven in het DOM
+			$("ul ul>li.actief").prevAll().css("color", "red");
+			
+			//alle onderliggende elemementen groen maken
+			$("body>div>div>ul>li.actief").children().css("color", "green");
+			
+			//alle naastgelegen elementen onderlijnen
+			$("body>div>div>ul>li.actief").siblings().css("text-decoration", "underline");
+			
+			//alle volgende elementn vet afdrukken
+			$("ul ul>li.actief").nextAll().css("font-weight", "bold");
+		});
+	
+	</script>
+
+
+  
+  
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1>vb p68-70</h1>
+    </header>
+    
+
+    <div>
+      <ul>
+      	<li>Hoofdstuk 1</li>
+      	<li class="actief">Hoofdstuk 2
+      		<ul>
+      			<li>Paragraaf 1</li>
+      			<li>Paragraaf 2</li>
+      			<li class="actief">Paragraaf 3</li>
+      			<li>Paragraaf 4</li>
+      			<li>Paragraaf 5</li>
+      		</ul>
+      		
+      	</li>
+      	<li>Hoofdstuk 3</li>
+      	<li>Hoofdstuk 4</li>
+      	
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>
