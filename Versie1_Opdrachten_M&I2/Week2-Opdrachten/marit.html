@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Les2: Schaakbord</title>
+    <meta name="description" content="" />
+    <meta name="author" content="Marit Jaspers" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <header>
+        <h1>Les2: Schaakbord</h1>
+    </header>
+
+    <section>
+        <div class="content" id="schaakbord">
+            
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="../jquery-1.12.1.min.js"></script>
+    <script>
+        for(var i = 0; i < 9; i++;) {
+            $('#schaakbord').append('<br>');
+            for(var j = 1; j < 9; j++) {
+                if (i % 2 !== 0) {
+                    if (j % 2 !== 0) {
+                        $('#schaakbord').append('<div class="black"></div>');
+                    } else {
+                        $('#schaakbord').append('<div class="white"></div>');
+                    }
+                } else {
+                    if (j % 2 !== 0) {
+                        $('#schaakbord').append('<div class="white"></div>');
+                    } else {
+                        $('#schaakbord').append('<div class="black"></div>');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8" />
+
+
+    <title>MI2-les1</title>
+    <meta name="description" content="" />
+    <meta name="author" content="Marit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+</head>
+
+<body>
+
+    <header>
+        <h1>Opdracht Dambord </h1>
+    </header>
+
+    <script src="../jquery-1.12.0.min.js"></script>
+    <div style='height:500px; width:500px; border:solid 1px black;'>
+        <script>
+            var rijen = 1;
+            var vakken = 1;
+
+            while (rijen < 11) {
+
+                document.write("<b>");
+                while (vakken < 11) {
+                    if (rijen % 2 !== 0) {
+                        if (vakken % 2 !== 0) {
+                            document.write("<div style='height:50px; width:50px; background-color:black; float:left; margin:0px;'></div>");
+                        } else {
+                            document.write("<div style='height:50px; width:50px; background-color:white; float:left;margin:0px;'></div>");
+                        }
+                    } else {
+                        if (vakken % 2 !== 0) {
+                            document.write("<div style='height:50px; width:50px; background-color:white; float:left; margin:0px;'></div>");
+                        } else {
+                            document.write("<div style='height:50px; width:50px; background-color:black; float:left; margin:0px;'></div>");
+                        }
+                    }
+                    vakken = vakken + 1;
+                }
+                rijen++;
+                vakken = 1;
+            }
+        </script>
+
+    </div>
+</body>
+
+</html>
