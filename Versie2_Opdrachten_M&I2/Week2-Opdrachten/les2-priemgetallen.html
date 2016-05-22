@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<head>
+    <meta charset="utf-8" />
+
+
+    <title>MI2-les1</title>
+    <meta name="description" content="" />
+    <meta name="author" content="Marit" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+</head>
+
+<body>
+
+    <header>
+        <h1>Opdracht Priemgetallen </h1>
+    </header>
+    <script src="../jquery-1.12.1.min.js"></script>
+    <script>
+
+            document.write("Priemgetallen");
+
+
+
+
+        for (var teller = 0; teller <= 1000000; teller++) {
+
+            var notPrime = false;
+            for (var i = 2; i <= teller; i++) {
+                if (teller % i == 0 && i !== teller) {
+                    notPrime = true;
+                }
+            }
+            if (notPrime == false) {
+                document.write("<br>" + teller);
+                console.log(teller);
+            }
+        }
+    </script>
+</body>
+
+</html>

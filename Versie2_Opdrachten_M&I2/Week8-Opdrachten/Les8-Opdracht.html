@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="nl">
+	<head>
+		<meta charset="utf-8" />
+		<title>Les 8 : webSQL</title>
+
+		<meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-inline' 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="msapplication-tap-highlight" content="no">
+		
+		<link rel="stylesheet" href="css/mi2Les10.min.css">
+		<link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
+		<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+
+		<script src="js/jquery-1.12.1.min.js"></script>
+		<script src="js/jquery.mobile-1.4.5.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		
+
+		<script>
+            "use strict";
+            /*global $, console, openDatabase */
+			var highScore, teller, tText, db, id1, score;
+
+            function updateTables() {
+				teller = 0;
+				tText = "";
+				for (teller = 0; teller < highScore.length; teller += 1) {
+					tText += "<tr><td>" + highScore[teller].id1 + "<\/td><td>" + highScore[teller].score + "<\/td><\/tr>";
+				}
+				$("#highscore tbody").html(tText);
+			}
+
+			function updateTablesSQL() {
+				db.transaction(function (tx) {
+					tx.executeSql('SELECT * FROM highscores order by score desc', [], function (tx, results) {
+						var len = results.rows.length, i;
+						tText = "";
+						for (teller = 0; teller < len; teller += 1) {
+							tText += "<tr><td>" + results.rows.item(teller).id1 + "<\/td><td>" + results.rows.item(teller).score + "<\/td><\/tr>";
+						}
+						$("#highscoreDB tbody").html(tText);
+
+					}, null);
+				});
+
+			}
+			$(document).ready(function () {
+				id1 = "Marit";
+				omschrijving = 1000;
+				highScore = [{
+					"id1" : id1,
+					"omschrijving" : omschrijving
+				}];
+
+				// schakel de transities uit
+				$(document).bind('pageinit', function () {
+					$.mobile.defaultPageTransition = 'none';
+				});
+
+				// open de databank
+				db = openDatabase('mydb', '1.0', 'Test DB', 0.1 * 1024 * 1024);
+
+				db.transaction(function (tx) {
+					tx.executeSql('CREATE TABLE IF NOT EXISTS highscores (id1, omschrijving)');
+					//where id1= ? and omschrijving= ?
+					tx.executeSql('select count(*) as aantal from highscores where id1 like ? and omschrijving like ?', [id1, omschrijving], function (tx, results) {
+						// kijk na of het resultaat ok is.
+						console.log("select werkt");
+						if (results.rows.item(0).aantal === 0) {
+							// er was nog geen combinatie met de id1 & omschrijving in de db, dus voeg die nu toe :
+							tx.executeSql('INSERT INTO highscores (id1,omschrijving) VALUES (?, ?)', [id1, omschrijving], function (tx, results) {
+								console.log("ok!");
+							}, function (tx, error) {
+								console.log("NOK!");
+							});
+						}
+
+					}, function (tx, error) {
+						console.log("NOK!");
+					});
+				});
+
+				updateTables();
+				updateTablesSQL();
+
+				$("#voegToe").click(function () {
+					id1 = $("#id1Speler").val();
+					omschrijving = parseFloat($("#omschrijvingSpeler").val());
+					highScore.push({
+						"id1" : id1,
+						"omschrijving" : omschrijving
+					});
+
+					db.transaction(function (tx) {
+						tx.executeSql('INSERT INTO highscores (id1,omschrijving) VALUES (?, ?)', [id1, omschrijving]);
+					});
+					updateTables();
+					updateTablesSQL();
+
+				});
+
+			});
+
+			
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<div data-role="page" id="home">
+			<div data-role="header" data-position="fixed" >
+				<h1>Spel</h1>
+			</div>
+			<div data-role="content">
+				<label for="id1Speler">id1 speler :</label>
+				<input type="text" id="id1Speler">
+
+				<label for="omschrijvingSpeler">omschrijving :</label>
+				<input type="number" id="omschrijvingSpeler">
+				<button id="voegToe">
+					Voeg Toe
+				</button>
+
+			</div>
+			<div data-role="footer" data-id="footMenu" data-position="fixed" >
+				<div data-role="navbar" data-grid="b">
+					<ul>
+						<li>
+							<a href="#home" class="ui-btn-active ui-state-persist" data-icon="home">Home</a>
+						</li>
+						<li>
+							<a href="#highscore"  data-icon="star" data-iconpos="notext">Highscore</a>
+						</li>
+						<li>
+							<a href="#highscoreDB" data-icon="edit" data-iconpos="notext">Highscore DB</a>
+						</li>
+
+					</ul>
+				</div><!-- /navbar -->
+			</div><!-- /footer -->
+
+		</div>
+
+		<div data-role="page" id="highscore">
+			<div data-role="header" data-position="fixed" >
+				<h1>Highscore</h1>
+			</div>
+			<div data-role="content">
+				<table id="highscoreTable">
+					<thead>
+						<tr>
+							<th>Speler</th>
+							<th>omschrijving</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div data-role="footer" data-id="footMenu" data-position="fixed">
+				<div data-role="navbar" data-grid="b">
+					<ul>
+						<li>
+							<a href="#home"  data-icon="home">Home</a>
+						</li>
+						<li>
+							<a href="#highscore" class="ui-btn-active ui-state-persist" data-icon="star" data-iconpos="notext">Highscore</a>
+						</li>
+						<li>
+							<a href="#highscoreDB" data-icon="edit" data-iconpos="notext">Highscore DB</a>
+						</li>
+
+					</ul>
+				</div><!-- /navbar -->
+			</div><!-- /footer -->
+
+		</div>
+
+		<div data-role="page" id="highscoreDB">
+			<div data-role="header" data-position="fixed" >
+				<h1>Highscore uit de DB</h1>
+			</div>
+			<div data-role="content">
+				<table id="highscoreTableDB">
+					<thead>
+						<tr>
+							<th>Speler</th>
+							<th>omschrijving</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div data-role="footer" data-id="footMenu" data-position="fixed">
+				<div data-role="navbar" data-grid="b">
+					<ul>
+						<li>
+							<a href="#home"  data-icon="home">Home</a>
+						</li>
+						<li>
+							<a href="#highscore" data-icon="star" data-iconpos="notext">Highscore</a>
+						</li>
+						<li>
+							<a href="#highscoreDB" class="ui-btn-active ui-state-persist" data-icon="edit" data-iconpos="notext">Highscore DB</a>
+						</li>
+
+					</ul>
+				</div><!-- /navbar -->
+			</div><!-- /footer -->
+
+		</div>
+
+	</body>
+</html>

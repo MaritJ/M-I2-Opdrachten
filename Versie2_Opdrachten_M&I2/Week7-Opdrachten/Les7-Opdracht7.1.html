@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Les 7: Oef 7.1</title>
+	<meta name="description" content="" />
+	<meta name="author" content="Manon Wauters" />
+
+	<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+	<script src="../jquery-1.12.1.js"></script>
+	<script src="../jquery-1.12.1.min.js"></script>
+
+	<script>
+		"use strict";
+		/*global $ */
+		
+		function zoekFotos() {
+			var zoekterm = $("#zoekterm").val();
+			var flickrUrl = "http://api.flickr.com/services/feeds" + "/photos_public.gne?format=json&tag=";
+			$.ajax(
+				{
+					dataType: 'Json',
+					type: "GET",
+					url: flickrUrl + zoekterm + "&jsoncallback=?",
+					success: verwerkJSON
+				}
+			);
+		}
+		
+	</script>
+
+</head>
+
+<body>
+	<h1>JQuery - de Basis - Foto's</h1>
+	<p>
+		zoekterm:
+		<input type="text" id="zoekterm"/>
+		<input type="button" value="zoek" id="zoek" /> <br/>
+		<strong id="titel"></strong>
+	</p>
+	
+	<div id="fotos">
+	</div>
+
+	<p>
+		<a id="bron" href=""></a>
+	</p>
+	
+</body>

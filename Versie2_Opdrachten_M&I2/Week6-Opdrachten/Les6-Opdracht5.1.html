@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+       Remove this if you use the .htaccess -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Les 6: Oef5.1</title>
+	<meta name="description" content="" />
+	<meta name="author" content="Marit Jaspers" />
+
+	<meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+	<script src="../jquery-1.12.1.js"></script>
+	<script src="../jquery-1.12.1.min.js"></script>
+
+	<script>
+		"use strict";
+		/*global $ */
+		$(document).ready(function() {
+			$("#kleiner").click(function() {
+				//parseFloat zet getallen in textvorm om naar getallen in getalvorm
+				var grootte = parseFloat($("p").css("font-size"));
+				$("p").css("font-size", ((.8 * grootte)>3?(.8 * grootte):3) +"px");
+			});
+			$("#groter").click(function() {
+				var grootte = parseFloat($("p").css("font-size"));
+				$("p").css("font-size", (1.2 * grootte) +"px");
+			});
+		});
+	</script>
+
+</head>
+
+<body>
+	<header>
+		<h1>jQuery - de Basis - oefening 5.1</h1> Tekst
+		<button id="kleiner">Kleiner</button>
+		<button id="groter">Groter</button>
+
+	</header>
+
+	<div>
+		<p>
+			Lorem ipsum doler sit amet, consectetur adipsicing elit. Integer dolor.
+		</p>
+
+	</div>
+
+</body>
+
+</html>
